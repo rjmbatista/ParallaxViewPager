@@ -123,12 +123,35 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         
         self.contentSize = CGSize(
             width: frame.size.width,
-            height: self.pagerHeight - statusBarHeight
+            height: self.pagerHeight
         )
     }
     
     public func addDetailView(view: UIView) {
         view.frame.origin.y = self.pagerHeight
+        
+        if view is UIScrollView {
+            (view as! UIScrollView).isScrollEnabled = false
+        }
+        
+        if view is UITableView {
+            var tableHeight: CGFloat = 0
+            
+            let tableView = (view as! UITableView)
+            let nRows = tableView.numberOfRows(inSection: 0)
+            
+            for _ in 0...nRows-1 {
+                tableHeight += 44
+            }
+            
+            tableView.frame = CGRect(
+                x: tableView.frame.origin.x,
+                y: tableView.frame.origin.y,
+                width: tableView.frame.size.width,
+                height: tableHeight)
+            
+        }
+        
         self.addSubview(view)
         
         self.contentSize = CGSize(
@@ -142,7 +165,7 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         
         self.contentSize = CGSize(
             width: frame.size.width,
-            height: self.contentSize.height - navigationBarHeight
+            height: self.contentSize.height
         )
     }
     
