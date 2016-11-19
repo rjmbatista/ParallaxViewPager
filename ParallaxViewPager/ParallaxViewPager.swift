@@ -140,8 +140,9 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
             let tableView = (view as! UITableView)
             let nRows = tableView.numberOfRows(inSection: 0)
             
-            for _ in 0...nRows-1 {
-                tableHeight += 44
+            for i in 0...nRows-1 {
+                let rect = tableView.rectForRow(at: IndexPath(row: i, section: 0))
+                tableHeight += rect.size.height
             }
             
             tableView.frame = CGRect(
