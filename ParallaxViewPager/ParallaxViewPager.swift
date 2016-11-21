@@ -170,6 +170,13 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         )
     }
     
+    public func addContentSizeExtraHeight(value: CGFloat) {
+        self.contentSize = CGSize(
+            width: frame.size.width,
+            height: self.contentSize.height + value
+        )
+    }
+    
     // MARK: Scroll view delegate
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
