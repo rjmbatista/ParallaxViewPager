@@ -19,6 +19,9 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
     // imagesScrollView's height
     private var pagerHeight: CGFloat = 250
     
+    // static image to be displayed
+    private var staticImageView: UIImageView?
+    
     // image names to be displayed
     private var imageNamesArray = [String]()
     
@@ -51,16 +54,16 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         initUI()
     }
     
-    public init(frame: CGRect, pagerHeight: CGFloat, imageNames: [String]) {
+    public init(frame: CGRect, pagerHeight: CGFloat, staticImageName: String, imageNames: [String]) {
         super.init(frame: frame)
-        initWith(height: pagerHeight, imageNames: imageNames)
+        initWith(height: pagerHeight, staticImageName: staticImageName, imageNames: imageNames)
     }
     
     private func initUI() {
-        initWith(height: nil, imageNames: nil)
+        initWith(height: nil, staticImageName: nil, imageNames: nil)
     }
     
-    private func initWith(height: CGFloat?, imageNames: [String]?) {
+    private func initWith(height: CGFloat?, staticImageName: String?, imageNames: [String]?) {
         self.delegate = self
         self.tag = ParallaxViewPager.SCROLLVIEW_VERTICAL
         self.showsVerticalScrollIndicator = false
@@ -75,6 +78,11 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         // update the image names array
         if imageNames != nil {
             self.imageNamesArray = imageNames!
+        }
+        
+        // update the static image view
+        if let imageName = staticImageName {
+            self.staticImageView = UIImageView(image: UIImage(named: imageName))
         }
         
         // scrollview container for the images
@@ -107,8 +115,10 @@ public class ParallaxViewPager: UIScrollView, UIScrollViewDelegate {
         
         addSubview(imagesScrollView)
         
-        // add the page control
+        // add the static image
         
+        
+        // add the page control
         pageControl = UIPageControl(frame: CGRect(x: 0, y: pagerHeight-25, width: self.frame.size.width, height: 20))
         pageControl.numberOfPages = imageViewsArray.count
         if imageViewsArray.count > 1 {
